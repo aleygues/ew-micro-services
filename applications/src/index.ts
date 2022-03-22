@@ -2,10 +2,12 @@ import express from 'express';
 import mongoose from 'mongoose';
 import jobsRouter from './routers/jobs';
 import applicationsRouter from './routers/applications';
+import { initRabbitMQ } from './rabbitmq';
 
 async function init() {
     await mongoose.connect(process.env.MONGO_URI || 'mongodb://localhost:27017/monoapp');
-
+    await initRabbitMQ();
+    
     const app = express();
 
     app.use(express.json());

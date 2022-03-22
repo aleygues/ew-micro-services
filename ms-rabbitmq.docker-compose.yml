@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  jobs-app:
+    build: ./jobs/.
+    ports:
+      - 3010:3010
+    environment:
+      - MONGO_URI=mongodb://db:27017/monoapp
+      - APPLICATION_ENDPOINT=http://localhost:3011
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+  applications-app:
+    build: ./applications/.
+    ports:
+      - 3011:3010
+    environment:
+      - MONGO_URI=mongodb://db:27017/monoapp
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+  db:
+    image: mongo
+  rabbitmq:
+    image: rabbitmq:management
+    ports:
+      - 15672:15672
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 30s
+      timeout: 30s
+      retries: 3

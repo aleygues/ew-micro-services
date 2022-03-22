@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import fs from 'fs';
 import ApplicationModel from '../models/Application';
+import { publish } from '../rabbitmq';
 
 function processFile(filePath: string): number {
     const allFileContents = fs.readFileSync(filePath, 'utf-8');
@@ -23,6 +24,7 @@ export async function create(req: Request, res: Response) {
             jobId: req.params.id
         });
         //await attachApplicationToJob(req.params.id, doc._id);
+        publish('application', doc);
         res.json(doc);
     } else {
         res.status(400).json({ message: 'missing resume'});
