@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  app:
+    build: ./app/.
+    ports:
+      - 3010:3010
+    environment:
+      - MONGO_URI=mongodb://db:27017/monoapp
+  db:
+    image: mongo

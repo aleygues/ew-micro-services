@@ -1,0 +1,50 @@
+config:
+  target: "http://localhost:3010/api"
+  processor: "artilleryFileUpload.js"
+  variables:
+    filename:
+      - "cv1.txt"
+      - "cv2.txt"
+  phases:
+    - duration: 30
+      arrivalRate: 200
+
+before:
+  flow:
+    - log: "Create job offer"
+    - post:
+        url: "/jobs"
+        json:
+          title: "Super job!"
+          description: "Amazing job"
+          location: "Lyon"
+        capture:
+          - json: $.applicationUrl
+            as: applicationUrl
+          - json: $._id
+            as: jobId
+
+scenarios:
+  - name: "Come and apply"
+    weight: 9
+    flow:
+      - get:
+          url: "/jobs"
+      - think: 3
+      - get:
+          url: "/jobs/{{ jobId }}"
+      - think: 3
+      - post:
+          url: "{{ applicationUrl }}"
+          beforeRequest: "addMultipartFormData"
+  - name: "Browse jobs"
+    weight: 1
+    flow:
+      - get:
+          url: "/jobs"
+      - think: 3
+      - get:
+          url: "/jobs/{{ jobId }}"
+      - think: 3
+      - get:
+          url: "/jobs/{{ jobId }}"
