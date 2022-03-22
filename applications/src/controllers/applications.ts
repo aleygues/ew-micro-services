@@ -3,6 +3,8 @@ import fs from 'fs';
 import ApplicationModel from '../models/Application';
 import { publish } from '../rabbitmq';
 
+const replicaId = Math.floor(Math.random() * 10000);
+
 function processFile(filePath: string): number {
     const allFileContents = fs.readFileSync(filePath, 'utf-8');
     const lines = allFileContents.split(/(?:\r\n|\r|\n)/g);
@@ -23,11 +25,12 @@ export async function create(req: Request, res: Response) {
             wordCount: processFile(req.file.path),
             jobId: req.params.id
         });
+        const extendedDoc = { ...doc.toJSON(), _processedBy: replicaId };
         //await attachApplicationToJob(req.params.id, doc._id);
-        publish('application', doc);
-        res.json(doc);
+        publish('application', extendedDoc);
+        res.json(extendedDoc);
     } else {
-        res.status(400).json({ message: 'missing resume'});
+        res.status(400).json({ message: 'missing resume' });
     }
 }
 
