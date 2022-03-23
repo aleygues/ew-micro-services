@@ -1,0 +1,15 @@
+{
+  "name": "@aleygues/artillery",
+  "version": "1.0.0",
+  "description": "",
+  "main": "artilleryFileUpload.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "artillery": "^2.0.0-12"
+  }
+}
