@@ -6,13 +6,15 @@ services:
     ports:
       - 3010:3010
     environment:
-      - MONGO_URI=mongodb://db:27017/monoapp
+      - MONGO_URI=mongodb://db1:27017/monoapp
       - APPLICATION_ENDPOINT=http://localhost:3011
   applications-app:
     build: ./applications/.
     ports:
       - 3011:3010
     environment:
-      - MONGO_URI=mongodb://db:27017/monoapp
-  db:
+      - MONGO_URI=mongodb://db2:27017/monoapp
+  db1:
+    image: mongo
+  db2:
     image: mongo
