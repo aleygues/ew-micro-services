@@ -5,7 +5,7 @@ import ApplicationModel from '../models/Application';
 function processFile(filePath: string): number {
     const allFileContents = fs.readFileSync(filePath, 'utf-8');
     const lines = allFileContents.split(/(?:\r\n|\r|\n)/g);
-    const regex = /lorem|impsum/ig;
+    const regex = /nodejs|javascript/ig;
     let totalWordCount = 0;
     for (const line of lines) {
         const matches = line.match(regex);
