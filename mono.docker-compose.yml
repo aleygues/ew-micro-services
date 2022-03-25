@@ -6,6 +6,6 @@ services:
     ports:
       - 3010:3010
     environment:
-      - MONGO_URI=mongodb://db:27017/monoapp
+      - MONGO_URI=mongodb://db:27017/wttw
   db:
     image: mongo

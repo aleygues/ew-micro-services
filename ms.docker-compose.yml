@@ -6,13 +6,15 @@ services:
     ports:
       - 3010:3010
     environment:
-      - MONGO_URI=mongodb://db:27017/monoapp
+      - MONGO_URI=mongodb://jobs-db:27017/wttw
       - APPLICATION_ENDPOINT=http://localhost:3011
   applications-app:
     build: ./applications/.
     ports:
       - 3011:3010
     environment:
-      - MONGO_URI=mongodb://db:27017/monoapp
-  db:
+      - MONGO_URI=mongodb://applications-db:27017/wttw
+  jobs-db:
+    image: mongo
+  applications-db:
     image: mongo
