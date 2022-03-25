@@ -30,3 +30,7 @@ async function init() {
 }
 
 init();
+
+process.on('SIGINT', () => {
+    process.exit();
+});
