@@ -6,7 +6,7 @@ services:
     ports:
       - 3010:3010
     environment:
-      - MONGO_URI=mongodb://db:27017/monoapp
+      - MONGO_URI=mongodb://jobs-db:27017/wttw
       - APPLICATION_ENDPOINT=http://localhost:3011
     depends_on:
       rabbitmq:
@@ -14,11 +14,13 @@ services:
   applications-app:
     build: ./applications/.
     environment:
-      - MONGO_URI=mongodb://db:27017/monoapp
+      - MONGO_URI=mongodb://applications-db:27017/wttw
     depends_on:
       rabbitmq:
         condition: service_healthy
-  db:
+  jobs-db:
+    image: mongo
+  applications-db:
     image: mongo
   rabbitmq:
     image: rabbitmq:management
