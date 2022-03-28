@@ -7,7 +7,8 @@ config:
       - "cv2.txt"
   phases:
     - duration: 30
-      arrivalRate: 100
+      arrivalRate: 10
+      rampTo: 100
 
 before:
   flow:
