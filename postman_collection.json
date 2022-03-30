@@ -1,0 +1,165 @@
+{
+	"info": {
+		"_postman_id": "988495b4-293e-4b32-9c36-bb589afb4c09",
+		"name": "Jobs app",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create a job",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"title\": \"Super Job!\",\n    \"description\": \"Really super great\",\n    \"location\": \"Villeurbanne\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{endpoint}}/api/jobs",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"api",
+						"jobs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get jobs",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('get job id', () => {",
+							"    pm.expect(!!pm.response.json()[0]._id).to.be.true;",
+							"    pm.collectionVariables.set('job', pm.response.json()[pm.response.json().length - 1]._id);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{endpoint}}/api/jobs",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"api",
+						"jobs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get job details",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test('get application url', () => {",
+							"    pm.expect(!!pm.response.json().applicationUrl).to.be.true;",
+							"    pm.collectionVariables.set('applicationUrl', pm.response.json().applicationUrl);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{endpoint}}/api/jobs/{{job}}",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"api",
+						"jobs",
+						"{{job}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Apply to job",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "resume",
+							"type": "file",
+							"src": "/home/aleygues/Dev/WCS/WnS-2021/mono-app/artillery/data/cv1.txt"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{applicationUrl}}",
+					"host": [
+						"{{applicationUrl}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get job details and find new application",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{endpoint}}/api/jobs/{{job}}",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"api",
+						"jobs",
+						"{{job}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "job",
+			"value": ""
+		},
+		{
+			"key": "applicationUrl",
+			"value": ""
+		}
+	]
+}
