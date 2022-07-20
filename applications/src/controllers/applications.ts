@@ -1,12 +1,12 @@
-import { Request, Response } from 'express';
-import fs from 'fs';
-import ApplicationModel from '../models/Application';
-import { publish } from '../rabbitmq';
+import { Request, Response } from "express";
+import fs from "fs";
+import ApplicationModel from "../models/Application";
+import { publish } from "../rabbitmq";
 
 function processFile(filePath: string): number {
-    const allFileContents = fs.readFileSync(filePath, 'utf-8');
+    const allFileContents = fs.readFileSync(filePath, "utf-8");
     const lines = allFileContents.split(/(?:\r\n|\r|\n)/g);
-    const regex = /sha|hash/ig;
+    const regex = /sha|hash/gi;
     let totalWordCount = 0;
     for (const line of lines) {
         const matches = line.match(regex);
@@ -21,13 +21,13 @@ export async function create(req: Request, res: Response) {
         const doc = await ApplicationModel.create({
             resumeFilename: req.file.filename,
             wordCount: processFile(req.file.path),
-            jobId: req.params.id
+            jobId: req.params.id,
         });
-        //await attachApplicationToJob(req.params.id, doc._id);
-        publish('application', doc);
+        //await attachApplicationToJob(req.params.id, doc._id.toString());
+        publish("application", doc);
         res.json(doc);
     } else {
-        res.status(400).json({ message: 'missing resume'});
+        res.status(400).json({ message: "missing resume" });
     }
 }
 
