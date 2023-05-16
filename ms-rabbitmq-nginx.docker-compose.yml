@@ -38,7 +38,7 @@ services:
       - 3011:3011
     command: sh -c "/wait && nginx -g \"daemon off;\""
     environment:
-      - WAIT_HOSTS=ew-micro-services_applications-app_1:3010,ew-micro-services_applications-app_2:3010,ew-micro-services_applications-app_3:3010
+      - WAIT_HOSTS=ew-micro-services-applications-app-1:3010,ew-micro-services-applications-app-2:3010,ew-micro-services-applications-app-3:3010
       - WAIT_HOSTS_TIMEOUT=60
       - WAIT_SLEEP_INTERVAL=2
       - WAIT_HOST_CONNECT_TIMEOUT=5
